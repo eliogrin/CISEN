@@ -44,7 +44,7 @@ public class MongoDBServiceImpl implements MongoDBService {
         Log.debug("Try to get [%s] collection", table.getTable());
         MongoCollection result = collections.get(table.getTable());
         if (result == null) {
-            Log.debug("Cannot find collection [%s], Try to create new connection.");
+            Log.debug("Cannot find collection [%s], Try to create new connection.", table.getTable());
             result = jongo.getCollection(table.getTable());
             collections.put(table.getTable(), result);
             Log.debug("Connection to [%s] was created.", table.getTable());
