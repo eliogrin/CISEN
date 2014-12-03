@@ -1,0 +1,20 @@
+<form class="form-horizontal form-signin" name="loginForm" novalidate>
+    <fieldset>
+        <legend>Welcome to CISEN Application</legend>
+
+        <div class="form-group" ng-class="{'has-error' : loginForm.userName.$invalid && loginForm.userName.$dirty,
+                                           'has-success': loginForm.userName.$valid && loginForm.userName.$dirty}">
+            <label for="user-name" class="col-sm-3 control-label">User</label>
+            <div class="col-sm-9">
+                <input type="text" name="userName" class="form-control" id="user-name" placeholder="Enter user name here" ng-model="user.name" required>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-group">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
+            <button type="submit" name="submitButton" class="btn btn-primary btn-block" ng-disabled="loginForm.$invalid || isResetFrom(user)" ng-click="login(user)">Submit</button>
+        </div>
+    </div>
+</form>

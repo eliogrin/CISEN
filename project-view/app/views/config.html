@@ -1,0 +1,118 @@
+<div class="container container-center">
+    <section class="config-tabs">
+        <ul class="nav nav-pills">
+            <li ng-class="{ active:isSet(1) }">
+                <a href ng-click="setTab(1)">CI</a>
+            </li>
+            <li ng-class="{ active:isSet(2) }">
+                <a href ng-click="setTab(2)">Messenger</a>
+            </li>
+            <li ng-class="{ active:isSet(3) }">
+                <a href ng-click="setTab(3)">Processors</a>
+            </li>
+        </ul>
+
+        <form class="form-horizontal job-name" role="form">
+            <div class="form-group">
+                <label for="jobName" class="col-sm-2 control-label">Job Name</label>
+                <div class="col-sm-9">
+                    <input type="text" name="pass" class="form-control" id="jobName" placeholder="Enter Job Name Here" ng-model="jobName" required>
+                </div>
+            </div>
+        </form>
+
+        <div ng-show="isSet(1)">
+
+            <form class="form-horizontal" role="form" name="ciConfigForm" novalidate>
+                <input type="hidden" name="baseType" class="form-control" id="base-type" placeholder="Enter user name here" ng-model="baseType" required>
+                <input type="hidden" name="type" class="form-control" id="type" placeholder="Enter user name here" ng-model="type" required>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">CI List</label>
+                    <div class="col-sm-9">
+                        <select ng-model="ciSelected" class="form-control" ng-options="template.type for template in ciTemplates">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login" class="col-sm-2 control-label">Login</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="login" class="form-control" id="login" placeholder="Enter login here" ng-model="login" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pass" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="pass" class="form-control" id="pass" placeholder="Enter pass here" ng-model="pass" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="url" class="col-sm-2 control-label">Server URL</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="buildTypeId" class="form-control" id="url" placeholder="Enter URL here" ng-model="url" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="buildTypeId" class="col-sm-2 control-label">Build ID</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="buildTypeId" class="form-control" id="buildTypeId" placeholder="Enter build type here" ng-model="buildTypeId" required>
+                    </div>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-primary save-config" ng-click="setTab(2)">Next</button>
+
+        </div>
+
+        <div ng-show="isSet(2)">
+
+            <form class="form-horizontal" role="form" name="messengerConfigForm" novalidate>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Messenger List</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="messengerSelected" ng-options="template.type for template in messengerTemplates">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" name="baseType" class="form-control" id="base-type-messenger" placeholder="Enter user name here" ng-model="baseType" required>
+                    <input type="hidden" name="type" class="form-control" id="type-messenger" placeholder="Enter user name here" ng-model="type" required>
+
+                    <label for="recipient" class="col-sm-2 control-label">Recipient</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="recipient" class="form-control" id="recipient" placeholder="Enter login here" ng-model="recipient" required>
+                    </div>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-primary save-config" ng-click="setTab(3)">Next</button>
+
+        </div>
+
+        <div ng-show="isSet(3)">
+
+            <form class="form-horizontal" role="form" name="processorsConfigForm" novalidate>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Processors List</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="processorsSelected" ng-options="template.type for template in processorsTemplates">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" name="baseType" class="form-control" id="base-type-processor" placeholder="Enter user name here" ng-model="baseType" required>
+                    <input type="hidden" name="type" class="form-control" id="type-processor" placeholder="Enter user name here" ng-model="type" required>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-primary save-config" ng-click="saveConfig()">Save</button>
+
+        </div>
+    </section>
+</div>

@@ -1,0 +1,4 @@
+1. Should understand different type of command.
+  a) Send message
+  b) create group of user
+  c) add user(s) to group and approve

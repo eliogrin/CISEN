@@ -1,0 +1,31 @@
+/* app css stylesheet */
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.form-signin {
+    max-width: 380px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.container-center {
+    margin: 0 auto;
+
+}
+
+.config-tabs {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.save-config {
+    margin-top: 10px;
+}
+
+.job-name {
+    margin: 10px 0;
+}

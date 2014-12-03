@@ -1,0 +1,25 @@
+<div class="container">
+    <p ng-show="!jobsMessage">Sorry you didn’t have any jobs…</p>
+    <div class="form-group">
+        <button type="submit" class="btn btn-success" ng-click="addNewJob()">Add new job</button>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4" ng-repeat="job in jobs">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{job.name}}</h3>
+                </div>
+                <div class="panel-body">
+                    {{job.ci.baseType}}:{{job.ci.type}}
+                </div>
+                <div class="panel-body">
+                    {{job.messenger.baseType}}:{{job.messenger.type}}
+                </div>
+                <div class="panel-body">
+                    {{job.processor.baseType}}:{{job.processor.type}}
+                </div>
+            </div>
+        </div><!-- /.col-sm-4 -->
+    </div>
+</div>
