@@ -13,15 +13,15 @@ public class Log {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:SSS");
 
     public static void debug(String text, Object... args) {
-        print(System.out, text, args);
+        print(System.out, "[DEBUG]\t" + text, args);
     }
 
     public static void info(String text, Object... args) {
-        print(System.out, text, args);
+        print(System.out, "[INFO]\t" + text, args);
     }
 
     public static void error(String text, Object... args) {
-        print(System.err, text, args);
+        print(System.err, "[ERROR]\t" + text, args);
     }
 
     private static String format(String text, Object... args) {

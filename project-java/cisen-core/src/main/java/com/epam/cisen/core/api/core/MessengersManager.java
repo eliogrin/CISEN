@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.epam.cisen.core.api.Messenger;
+import com.epam.cisen.core.api.util.Log;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -21,7 +22,7 @@ public class MessengersManager {
 
     @Activate
     public void activate(ComponentContext componentContext) {
-        System.out.println("******** Manager call messengers **********");
+        Log.info("Activate Messenger Mapper");
     }
 
     protected void bindMessenger(Messenger ciMessenger) {

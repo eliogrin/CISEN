@@ -27,8 +27,7 @@ public class ConnectorManager {
 
     @Activate
     public void activate(ComponentContext componentContext) {
-        Log.info("Activate Connector");
-        System.out.println("******** Connector call manager **********");
+        Log.info("Activate Connector Mapper");
     }
 
     protected void bindConnector(Connector connector) {

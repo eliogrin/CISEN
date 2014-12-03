@@ -3,6 +3,7 @@ package com.epam.cisen.core.api.core;
 import com.epam.cisen.core.api.Processor;
 import com.epam.cisen.core.api.dto.CiReport;
 import com.epam.cisen.core.api.MongoDBService;
+import com.epam.cisen.core.api.util.Log;
 import org.apache.felix.scr.annotations.*;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
@@ -20,7 +21,7 @@ public class ProcessorsManager {
 
     @Activate
     public void activate(ComponentContext componentContext) {
-        System.out.println("******** Connector call manager **********");
+        Log.info("Activate Processor Mapper");
     }
 
     protected void bindProcessor(Processor processor) {
