@@ -26,9 +26,6 @@ public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
         CONFIG.setPass("TC user's pass");
     }
 
-    @Reference
-    private MongoDBService mongoDBService;
-
     private final TeamCityWorker worker = new TeamCityWorker();
 
     @Override

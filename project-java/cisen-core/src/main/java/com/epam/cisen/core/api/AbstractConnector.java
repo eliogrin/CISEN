@@ -66,7 +66,7 @@ public abstract class AbstractConnector<T extends ConfigDTO> extends AbstractPlu
 
     private boolean buildInDB(MongoCollection collection, String jobId, String buildId) {
         try {
-            MongoCursor cursor = collection.find("{jobId:#, buildId:#}",
+            MongoCursor cursor = collection.find("{ $and [ {jobId:#}, {buildId:#} ] }",
                     jobId, buildId).as(CiReport.class);
             try {
                 return !cursor.hasNext();

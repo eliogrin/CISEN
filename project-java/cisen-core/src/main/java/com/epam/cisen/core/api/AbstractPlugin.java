@@ -34,7 +34,7 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
     private List<T> testData;
 
     protected List<T> getTestData() {
-        return new ArrayList<>();
+        return null;
     }
 
     protected abstract Constants.DB getTemplateTableName();
