@@ -22,20 +22,29 @@ public class Constants {
         PROCESSOR_CONFIGS("configs_processor"),
         MESSENGER_CONFIGS("configs_messenger"),
         //Users with jobs
-        USERS("users"),
+        USERS("users",
+                "{jobs.ci:1}",
+                "{jobs.messenger:1}",
+                "{jobs.processor:1}"),
         //
         TO_SEND("to_send"),
         //
         BUILDS("builds");
 
         private String tableName;
+        private String[] indexes;
 
-        DB(String tableName) {
+        DB(String tableName, String... indexes) {
             this.tableName = tableName;
+            this.indexes = indexes;
         }
 
         public String getTable() {
             return tableName;
+        }
+
+        public String[] getIndexes() {
+            return indexes;
         }
     }
 }

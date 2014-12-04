@@ -1,5 +1,7 @@
 package com.epam.cisen.core.api.util;
 
+import com.epam.cisen.core.api.dto.Constants;
+
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,7 +15,9 @@ public class Log {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss:SSS");
 
     public static void debug(String text, Object... args) {
-        print(System.out, "[DEBUG]\t" + text, args);
+        if (Constants.DEBUG) {
+            print(System.out, "[DEBUG]\t" + text, args);
+        }
     }
 
     public static void info(String text, Object... args) {

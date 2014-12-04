@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Service;
 import org.jongo.*;
+
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +34,32 @@ public class MongoDBServiceImpl implements MongoDBService {
             this.m_db = mongoClient.getDB(Constants.DB_NAME);
             this.m_mongo = m_db.getMongo();
             this.jongo = new Jongo(m_db);
+            setUpDB();
             Log.info("MongoDb service was started successfully.");
         } catch (UnknownHostException e) {
             Log.error("Fail to connect: " + e.getMessage());
         }
+    }
+
+    private void setUpDB() {
+        Log.info("Setting up DB...");
+
+        MongoCollection indexes = jongo.getCollection("system.indexes");
+        for (Constants.DB table : Constants.DB.values()) {
+            MongoCollection collection = getCollection(table);
+            Log.info("Find indexes for table [%s].", table.getTable());
+            for (String index : table.getIndexes()) {
+                Log.debug("Try to find index [%s] for table [%s].", index, table.getTable());
+                if (indexes.findOne("{key : # } ", index).as(Object.class) == null) {
+                    Log.debug("Cannot find index [%s] for table [%s].", index, table.getTable());
+                    Log.debug("Try to create index [%s] for table [%s].", index, table.getTable());
+                    collection.ensureIndex(index);
+                    Log.debug("Index [%s] for table [%s] was created.", index, table.getTable());
+                }
+            }
+        }
+
+        Log.info("DB was set up.");
     }
 
     @Override
