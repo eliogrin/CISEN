@@ -7,7 +7,6 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.ConfigurationPolicy;
 import org.apache.felix.scr.annotations.Properties;
@@ -17,8 +16,8 @@ import org.osgi.service.component.ComponentContext;
 
 import com.epam.cisen.core.api.AbstractMessenger;
 import com.epam.cisen.core.api.Messenger;
-import com.epam.cisen.core.api.util.PropertiesUtil;
 import com.epam.cisen.core.api.dto.ToSend;
+import com.epam.cisen.core.api.util.PropertiesUtil;
 
 @Component(label = "Email messenger", metatype = true, policy = ConfigurationPolicy.REQUIRE)
 @Service(Messenger.class)
@@ -41,20 +40,20 @@ public class EmailMessenger extends AbstractMessenger<EmailConfigDTO> {
     private String password;
     private String from;
 
-    @Activate
-    public void activate(ComponentContext componentContext) {
-        registerPlugin();
+    @Override
+    protected EmailConfigDTO getPluginTemplateConfig() {
+        return new EmailConfigDTO();
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
         final Dictionary properties = componentContext.getProperties();
         server = PropertiesUtil.toString(properties.get(SMTP_SERVER), StringUtils.EMPTY);
         port = PropertiesUtil.toInteger(properties.get(SMTP_PORT), 465);
         login = PropertiesUtil.toString(properties.get(SMTP_LOGIN), StringUtils.EMPTY);
         password = PropertiesUtil.toString(properties.get(SMTP_PASSWORD), StringUtils.EMPTY);
         from = PropertiesUtil.toString(properties.get(SENDER_EMAIL), StringUtils.EMPTY);
-    }
-
-    @Override
-    protected EmailConfigDTO getPluginTemplateConfig() {
-        return new EmailConfigDTO();
     }
 
     @Override

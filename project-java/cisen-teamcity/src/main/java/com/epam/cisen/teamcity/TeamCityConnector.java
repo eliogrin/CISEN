@@ -1,21 +1,19 @@
 package com.epam.cisen.teamcity;
 
-import com.epam.cisen.core.api.AbstractConnector;
-import com.epam.cisen.core.api.MongoDBService;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
-
-import com.epam.cisen.core.api.Connector;
-import com.epam.cisen.core.api.dto.CiReport;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.ComponentContext;
+
+import com.epam.cisen.core.api.AbstractConnector;
+import com.epam.cisen.core.api.Connector;
+import com.epam.cisen.core.api.dto.CiReport;
 
 @Component
 @Service(Connector.class)
 public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
-
 
     private static final TeamCityConfig CONFIG = new TeamCityConfig();
 
@@ -50,10 +48,15 @@ public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
         return result;
     }
 
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
+    }
+
     protected TeamCityConfig create(String buildTypeIs) {
         TeamCityConfig config = new TeamCityConfig();
         config.setBuildTypeId(buildTypeIs);
-        //TODO:set base url, login and pass.
+        // TODO:set base url, login and pass.
         return config;
     }
 }

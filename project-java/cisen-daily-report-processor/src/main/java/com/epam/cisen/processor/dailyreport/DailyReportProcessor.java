@@ -9,6 +9,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
+import org.osgi.service.component.ComponentContext;
 
 import java.io.IOException;
 //import java.time.Duration;
@@ -90,6 +91,11 @@ public class DailyReportProcessor extends AbstractProcessor<DailyReportProcessor
         DailyReportProcessorConfigDTO dto = new DailyReportProcessorConfigDTO();
         result.add(dto);
         return result;
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
     }
 
 }

@@ -9,6 +9,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
+import org.osgi.service.component.ComponentContext;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,6 +26,11 @@ public class StatusWatchdogProcessor extends AbstractProcessor<WatchdogProcessor
         WatchdogProcessorConfigDTO templateConfig = new WatchdogProcessorConfigDTO();
         templateConfig.setTimeout("Set watchdog interval in minutes");
         return templateConfig;
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
     }
 
     @Override

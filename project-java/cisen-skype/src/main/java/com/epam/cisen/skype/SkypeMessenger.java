@@ -9,6 +9,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.ComponentContext;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -54,6 +55,11 @@ public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
     @Override
     protected SkypeConfigDTO getPluginTemplateConfig() {
         return new SkypeConfigDTO();
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
     }
 
     @Activate

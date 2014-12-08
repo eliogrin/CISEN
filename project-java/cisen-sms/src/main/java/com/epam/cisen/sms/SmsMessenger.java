@@ -42,9 +42,15 @@ public class SmsMessenger extends AbstractMessenger<SmsDto> {
     private static HttpPost request;
     private static CloseableHttpClient client = HttpClients.createDefault();
 
-    @Activate
-    public void activate(ComponentContext componentContext) {
-        registerPlugin();
+    @Override
+    protected SmsDto getPluginTemplateConfig() {
+        SmsDto smsDto = new SmsDto();
+        smsDto.setRecipient("Hint: Put phone number in format 38XXXXXXXXXX");
+        return smsDto;
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
 
         final Dictionary properties = componentContext.getProperties();
         String gate = PropertiesUtil.toString(properties.get(GATE), StringUtils.EMPTY);
@@ -55,13 +61,6 @@ public class SmsMessenger extends AbstractMessenger<SmsDto> {
 
         request = new HttpPost(gate);
         request.setHeader("ContentType", "application/xml; charset=utf=8");
-    }
-
-    @Override
-    protected SmsDto getPluginTemplateConfig() {
-        SmsDto smsDto = new SmsDto();
-        smsDto.setRecipient("Hint: Put phone number in format 38XXXXXXXXXX");
-        return smsDto;
     }
 
     @Override

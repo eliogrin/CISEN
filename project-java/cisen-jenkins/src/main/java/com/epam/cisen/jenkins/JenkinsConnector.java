@@ -6,6 +6,7 @@ import com.epam.cisen.core.api.dto.CiReport;
 import com.epam.cisen.core.api.dto.ConfigDTO;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.ComponentContext;
 
 @Component
 @Service(Connector.class)
@@ -14,6 +15,11 @@ public class JenkinsConnector extends AbstractConnector<ConfigDTO> {
     @Override
     public ConfigDTO getPluginTemplateConfig() {
         return new ConfigDTO("Jenkins", ConfigDTO.BaseType.CI);
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
+import org.osgi.service.component.ComponentContext;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,6 +37,8 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
     protected List<T> getTestData() {
         return null;
     }
+
+    protected abstract void setupPlugin(ComponentContext componentContext);
 
     protected abstract Constants.DB getTemplateTableName();
 
@@ -86,8 +89,9 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
 
 
     @Activate
-    public void activate() {
+    public void activate(ComponentContext componentContext) {
         registerPlugin();
+        setupPlugin(componentContext);
     }
 
     @Deactivate
@@ -106,7 +110,8 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
     private void updateUser(String userName, String jobName, T info) throws Exception {
         MongoCollection collection = mongoDBService.getCollection(Constants.DB.USERS);
         MongoCursor<CiUser> users = collection.find(String.format("{name:'%s'}", userName)).as(CiUser.class);
-        CiUser ciUser = null;
+
+        CiUser ciUser;
         if (users.hasNext()) {
             ciUser = users.next();
         } else {
@@ -157,15 +162,13 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
             Log.info("Try to register plugin [%s]", type);
 
             final MongoCollection collection = getCollection();
-            final MongoCursor previousConfig = collection.find(String.format("{type: '%s'}", type)).as(
-                    configTemplate.getClass());
-            try {
+
+            try (MongoCursor previousConfig = collection.find(String.format("{type: '%s'}", type)).as(
+                    configTemplate.getClass())) {
                 if (previousConfig.hasNext()) {
                     Log.info("Plugin [%s] already registered!", type);
                     return;
                 }
-            } finally {
-                previousConfig.close();
             }
 
             Log.info("Plugin not register yet . Register plugin with [%s] type.", type);

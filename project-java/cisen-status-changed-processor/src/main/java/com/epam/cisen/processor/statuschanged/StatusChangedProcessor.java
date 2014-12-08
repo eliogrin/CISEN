@@ -12,6 +12,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
+import org.osgi.service.component.ComponentContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +34,11 @@ public class StatusChangedProcessor extends AbstractProcessor<StatusChangedProce
     @Override
     protected StatusChangedProcessorConfigDTO getPluginTemplateConfig() {
         return CONFIG;
+    }
+
+    @Override
+    protected void setupPlugin(ComponentContext componentContext) {
+
     }
 
     @Override
