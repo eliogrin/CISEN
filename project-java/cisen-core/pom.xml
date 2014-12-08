@@ -20,6 +20,7 @@
 						<Export-Package>
 							com.epam.cisen.core.api;
                             com.epam.cisen.core.api.dto;
+							com.epam.cisen.core.api.util;
 						</Export-Package>
 					</instructions>
 				</configuration>
