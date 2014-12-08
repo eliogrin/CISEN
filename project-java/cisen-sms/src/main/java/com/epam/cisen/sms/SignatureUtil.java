@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
  * Util class for signature generation. Required for SMS gate authorization.
  */
 public class SignatureUtil {
+
     public static String getSignature(final String login, final String password) {
         byte byteData[] = new byte[0];
         try {
