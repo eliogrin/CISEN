@@ -85,7 +85,10 @@
                 <include>de.undercouch:bson4jackson</include>
                 <include>org.apache.commons:commons-email</include>
                 <include>javax.mail:mail</include>
+                <include>com.eclipsesource.jaxrs:jersey-all</include>
+                <include>com.eclipsesource.jaxrs:publisher</include>
             </includes>
+
             <outputDirectory>bundle</outputDirectory>
             <outputFileNameMapping>
                 ${artifact.artifactId}-${artifact.baseVersion}${dashClassifier?}.${artifact.extension}

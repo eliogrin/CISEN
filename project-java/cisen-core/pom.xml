@@ -18,6 +18,7 @@
 				<configuration>
 					<instructions>
 						<Export-Package>
+							com.epam.cisen.core.ui;
 							com.epam.cisen.core.api;
                             com.epam.cisen.core.api.dto;
 							com.epam.cisen.core.api.util;
@@ -42,6 +43,11 @@
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.compendium</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eclipsesource.jaxrs</groupId>
+			<artifactId>jersey-all</artifactId>
 		</dependency>
 
 		<dependency>
