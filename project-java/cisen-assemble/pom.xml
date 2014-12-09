@@ -92,6 +92,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.eclipsesource.jaxrs</groupId>
+            <artifactId>provider-gson</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.dependencymanager</artifactId>
             <version>3.0.0</version>

@@ -87,6 +87,8 @@
                 <include>javax.mail:mail</include>
                 <include>com.eclipsesource.jaxrs:jersey-all</include>
                 <include>com.eclipsesource.jaxrs:publisher</include>
+                <include>com.eclipsesource.jaxrs:provider-gson</include>
+                <include>com.google.code.gson:gson</include>
             </includes>
 
             <outputDirectory>bundle</outputDirectory>
