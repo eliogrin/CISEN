@@ -11,6 +11,8 @@ import com.mongodb.util.JSON;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +26,7 @@ import java.util.Objects;
 @Path("/status")
 public class RestExample {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestExample.class);
 
     @Reference
     protected MongoDBService mongoDBService;
@@ -58,6 +61,6 @@ public class RestExample {
     @Path("/job")
     @Consumes("application/x-www-form-urlencoded")
     public void set(MultivaluedMap<String, String> formParams) {
-        System.out.println(formParams);
+        LOGGER.info("Params: {}", formParams);
     }
 }

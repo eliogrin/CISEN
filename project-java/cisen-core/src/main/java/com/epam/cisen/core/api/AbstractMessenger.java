@@ -1,15 +1,15 @@
 package com.epam.cisen.core.api;
 
-import com.epam.cisen.core.api.dto.ConfigDTO;
-import com.epam.cisen.core.api.dto.Constants;
-import com.epam.cisen.core.api.dto.ToSend;
+import java.io.IOException;
+import java.util.Map;
+
 import org.apache.felix.scr.annotations.Component;
-import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 
-import java.io.IOException;
-import java.util.Map;
+import com.epam.cisen.core.api.dto.ConfigDTO;
+import com.epam.cisen.core.api.dto.Constants;
+import com.epam.cisen.core.api.dto.ToSend;
 
 @Component(componentAbstract = true)
 public abstract class AbstractMessenger<T extends ConfigDTO> extends AbstractPlugin<T> implements Messenger {

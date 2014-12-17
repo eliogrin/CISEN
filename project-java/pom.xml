@@ -74,6 +74,7 @@
         <module>cisen-status-changed-processor</module>
         <module>cisen-watchdog-processor</module>
         <module>cisen-daily-report-processor</module>
+        <module>cisen-log4j-config</module>
     </modules>
 
     <dependencyManagement>
@@ -134,6 +135,27 @@
                 <groupId>com.eclipsesource.jaxrs</groupId>
                 <artifactId>publisher</artifactId>
                 <version>4.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.slf4j</groupId>-->
+                <!--<artifactId>slf4j-api</artifactId>-->
+                <!--<version>1.7.7</version>-->
+                <!--<scope>provided</scope>-->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>org.ops4j.pax.logging</groupId>
+                <artifactId>pax-logging-service</artifactId>
+                <version>1.8.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ops4j.pax.logging</groupId>
+                <artifactId>pax-logging-api</artifactId>
+                <version>1.8.1</version>
                 <scope>provided</scope>
             </dependency>
 

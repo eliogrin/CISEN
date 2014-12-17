@@ -3,31 +3,30 @@ package com.epam.cisen.core.api.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.epam.cisen.core.api.util.Log;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.felix.scr.annotations.Service;
-import org.jongo.Jongo;
-import org.jongo.MongoCollection;
 import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epam.cisen.core.api.Connector;
-import com.epam.cisen.core.api.dto.CiReport;
-import com.epam.cisen.core.api.MongoDBService;
 
 @Component(immediate = true)
 @Service(ConnectorManager.class)
 @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE, referenceInterface = Connector.class, bind = "bindConnector", unbind = "unbindConnector")
 public class ConnectorManager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectorManager.class);
+
     private Map<String, Thread> pool = new HashMap<>(6);
 
     @Activate
     public void activate(ComponentContext componentContext) {
-        Log.info("Activate Connector Mapper");
+        LOGGER.info("Activate Connector Mapper");
     }
 
     protected void bindConnector(Connector connector) {
@@ -46,7 +45,6 @@ public class ConnectorManager {
         private Connector messenger;
 
         ConnectorCaller(Connector messenger) {
-            // System.out.println("******** ConnectorCaller **********");
             this.messenger = messenger;
         }
 

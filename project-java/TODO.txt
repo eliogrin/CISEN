@@ -1,2 +1,0 @@
-1. Skype plugin should collect all Skype's users and create a group and send message to all group members.
-2. Create JSON files for UI. (it should emulate Mongo DB).

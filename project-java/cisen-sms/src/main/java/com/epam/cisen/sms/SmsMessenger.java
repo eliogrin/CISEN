@@ -21,6 +21,8 @@ import com.epam.cisen.core.api.AbstractMessenger;
 import com.epam.cisen.core.api.Messenger;
 import com.epam.cisen.core.api.dto.ToSend;
 import com.epam.cisen.core.api.util.PropertiesUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component(label = "Sms messenger", metatype = true, policy = ConfigurationPolicy.REQUIRE)
 @Service(Messenger.class)
@@ -29,6 +31,8 @@ import com.epam.cisen.core.api.util.PropertiesUtil;
         @Property(name = SmsMessenger.LOGIN, label = "Login"),
         @Property(name = SmsMessenger.PASSWORD, label = "Password", passwordValue = "") })
 public class SmsMessenger extends AbstractMessenger<SmsDto> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmsMessenger.class);
 
     private final static String XML_TEMPLATE = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><package login=\"%s\" sig=\"%s\" classver='2.0'><messages><msg recipient=\"%s\" sender=\"SPEEDSMS\">%s</msg></messages></package>";
 
@@ -74,7 +78,8 @@ public class SmsMessenger extends AbstractMessenger<SmsDto> {
 
         } catch (IOException e) {
             // TODO: add logging to file
-            System.out.print("Fail to end SMS" + e.getMessage());
+
+            LOGGER.error("Fail to end SMS", e);
         }
 
     }

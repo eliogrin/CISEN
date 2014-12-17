@@ -1,27 +1,32 @@
 package com.epam.cisen.core.api.core;
 
-import com.epam.cisen.core.api.Processor;
-import com.epam.cisen.core.api.dto.CiReport;
-import com.epam.cisen.core.api.MongoDBService;
-import com.epam.cisen.core.api.util.Log;
-import org.apache.felix.scr.annotations.*;
-import org.jongo.Jongo;
-import org.jongo.MongoCollection;
-import org.osgi.service.component.ComponentContext;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.apache.felix.scr.annotations.ReferencePolicy;
+import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.epam.cisen.core.api.Processor;
 
 @Component(immediate = true)
 @Service(ProcessorsManager.class)
 @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_MULTIPLE, referenceInterface = Processor.class, bind = "bindProcessor", unbind = "unbindProcessor")
 public class ProcessorsManager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessorsManager.class);
+
     private Map<String, Thread> pool = new HashMap<>(6);
 
     @Activate
     public void activate(ComponentContext componentContext) {
-        Log.info("Activate Processor Mapper");
+        LOGGER.info("Activate Processor Mapper");
     }
 
     protected void bindProcessor(Processor processor) {

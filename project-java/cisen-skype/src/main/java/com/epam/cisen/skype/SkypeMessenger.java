@@ -10,6 +10,8 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Service;
 import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -20,6 +22,8 @@ import static org.apache.commons.io.IOUtils.closeQuietly;
 @Component
 @Service(Messenger.class)
 public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SkypeMessenger.class);
 
     private static final String SKYPE_SERVICE_HOST = "127.0.0.1";
     private static final int SKYPE_SERVICE_PORT = 9000;
@@ -64,13 +68,13 @@ public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
 
     @Activate
     public void activate() {
-        System.out.println("SkypeMessenger activate");
+        LOGGER.info("SkypeMessenger activate");
         try {
             registerPlugin();
             socket = new Socket(SKYPE_SERVICE_HOST, SKYPE_SERVICE_PORT);
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException ex) {
-            System.out.println("create socket: " + ex.getMessage());
+            LOGGER.error("Create socket: ", ex);
         }
     }
 
@@ -82,7 +86,7 @@ public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
 
     @Override
     protected void send(SkypeConfigDTO configDTO, ToSend message) {
-        System.out.println("Try to send message via 'Skype' program");
+        LOGGER.info("Try to send message via 'Skype' program");
 
         try {
             SkypeMessage telnetMessage = new SkypeMessage(configDTO.getRecipient(),
@@ -92,7 +96,7 @@ public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
             out.writeUTF(telnetMessage.toString());
             out.flush();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            LOGGER.error("Fail to send Skype message", ex);
         }
     }
 

@@ -1,15 +1,14 @@
 package com.epam.cisen.core.api;
 
+import org.apache.felix.scr.annotations.Component;
+import org.jongo.MongoCollection;
+
 import com.epam.cisen.core.api.dto.ConfigDTO;
 import com.epam.cisen.core.api.dto.Constants;
 import com.epam.cisen.core.api.dto.ToSend;
-import org.apache.felix.scr.annotations.Component;
-import org.jongo.Jongo;
-import org.jongo.MongoCollection;
 
 @Component(componentAbstract = true)
 public abstract class AbstractProcessor<T extends ConfigDTO> extends AbstractPlugin<T> implements Processor {
-
 
     @Override
     protected Constants.DB getTemplateTableName() {

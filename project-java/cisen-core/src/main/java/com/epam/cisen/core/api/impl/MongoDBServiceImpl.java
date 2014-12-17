@@ -1,25 +1,30 @@
 package com.epam.cisen.core.api.impl;
 
-import com.epam.cisen.core.api.MongoDBService;
-import com.epam.cisen.core.api.dto.Constants;
-import com.epam.cisen.core.api.util.Log;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Service;
-import org.jongo.*;
-
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
+import org.apache.felix.scr.annotations.Service;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.epam.cisen.core.api.MongoDBService;
+import com.epam.cisen.core.api.dto.Constants;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+
 @Component
 @Service
 public class MongoDBServiceImpl implements MongoDBService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBServiceImpl.class);
 
     private Mongo m_mongo;
     private DB m_db;
@@ -28,7 +33,7 @@ public class MongoDBServiceImpl implements MongoDBService {
 
     @Activate
     public void start() {
-        Log.info("Starting MongoDb service...");
+        LOGGER.info("Starting MongoDb service...");
         MongoClient mongoClient;
         try {
             mongoClient = new MongoClient(Constants.HOST, Constants.PORT);
@@ -36,56 +41,56 @@ public class MongoDBServiceImpl implements MongoDBService {
             this.m_mongo = m_db.getMongo();
             this.jongo = new Jongo(m_db);
             setUpDB();
-            Log.info("MongoDb service was started successfully.");
+            LOGGER.info("MongoDb service was started successfully.");
         } catch (UnknownHostException e) {
-            Log.error("Fail to connect: " + e.getMessage());
+            LOGGER.error("Fail to connect: ", e);
         }
     }
 
     private void setUpDB() {
-        Log.info("Setting up DB...");
+        LOGGER.info("Setting up DB...");
 
         MongoCollection indexes = jongo.getCollection("system.indexes");
         for (Constants.DB table : Constants.DB.values()) {
             MongoCollection collection = getCollection(table);
-            Log.info("Find indexes for table [%s].", table.getTable());
+            LOGGER.info("Find indexes for table [{}].", table.getTable());
             for (String index : table.getIndexes()) {
-                Log.debug("Try to find index [%s] for table [%s].", index, table.getTable());
+                LOGGER.debug("Try to find index [{}] for table [{}].", index, table.getTable());
                 if (indexes.findOne("{key : # } ", index).as(Object.class) == null) {
-                    Log.debug("Cannot find index [%s] for table [%s].", index, table.getTable());
-                    Log.debug("Try to create index [%s] for table [%s].", index, table.getTable());
+                    LOGGER.debug("Cannot find index [{}] for table [{}].", index, table.getTable());
+                    LOGGER.debug("Try to create index [{}] for table [{}].", index, table.getTable());
                     collection.ensureIndex(index);
-                    Log.debug("Index [%s] for table [%s] was created.", index, table.getTable());
+                    LOGGER.debug("Index [{}] for table [{}] was created.", index, table.getTable());
                 }
             }
         }
 
-        Log.info("DB was set up.");
+        LOGGER.info("DB was set up.");
     }
 
     @Override
     public MongoCollection getCollection(Constants.DB table) {
-        Log.debug("Try to get [%s] collection", table.getTable());
+        LOGGER.debug("Try to get [{}] collection", table.getTable());
         MongoCollection result = collections.get(table.getTable());
         if (result == null) {
-            Log.debug("Cannot find collection [%s], Try to create new connection.", table.getTable());
+            LOGGER.debug("Cannot find collection [{}], Try to create new connection.", table.getTable());
             result = jongo.getCollection(table.getTable());
             collections.put(table.getTable(), result);
-            Log.debug("Connection to [%s] was created.", table.getTable());
+            LOGGER.debug("Connection to [{}] was created.", table.getTable());
         }
         return result;
     }
 
     @Override
     public DBCollection getDBCollection(Constants.DB table) {
-        Log.debug("Try to get [%s] db collection", table.getTable());
+        LOGGER.debug("Try to get [{}] db collection", table.getTable());
         return getCollection(table).getDBCollection();
     }
 
     @Deactivate
     public void close() {
-        Log.info("Closing MongoDb connection...");
+        LOGGER.info("Closing MongoDb connection...");
         m_mongo.close();
-        Log.info("MongoDb connection was stopped successfully.");
+        LOGGER.info("MongoDb connection was stopped successfully.");
     }
 }

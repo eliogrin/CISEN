@@ -1,13 +1,12 @@
 package com.epam.cisen.core.api;
 
-import com.epam.cisen.core.api.dto.CiJob;
-import com.epam.cisen.core.api.dto.CiUser;
-import com.epam.cisen.core.api.dto.ConfigDTO;
-import com.epam.cisen.core.api.dto.ConfigDTO.BaseType;
-import com.epam.cisen.core.api.dto.Constants;
-import com.epam.cisen.core.api.util.Log;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -15,15 +14,24 @@ import org.apache.felix.scr.annotations.Reference;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
 import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.*;
+import com.epam.cisen.core.api.dto.CiJob;
+import com.epam.cisen.core.api.dto.CiUser;
+import com.epam.cisen.core.api.dto.ConfigDTO;
+import com.epam.cisen.core.api.dto.ConfigDTO.BaseType;
+import com.epam.cisen.core.api.dto.Constants;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * Created by Vladislav on 28.11.2014.
  */
 @Component(componentAbstract = true)
 public abstract class AbstractPlugin<T extends ConfigDTO> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPlugin.class);
 
     private T configTemplate;
 
@@ -70,8 +78,8 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
         try {
             MongoCollection collection = mongoDBService.getCollection(Constants.DB.USERS);
             for (T config : configs) {
-                String query = String.format("{ jobs:{$elemMatch:{%s: '%s'} } }",
-                        config.getBaseType().getDbName(), config.getId());
+                String query = String.format("{ jobs:{$elemMatch:{%s: '%s'} } }", config.getBaseType().getDbName(),
+                        config.getId());
                 List<CiJob> jobs = collection.distinct("jobs").query(query).as(CiJob.class);
                 for (CiJob job : jobs) {
                     jobsByIds.put(job.getId(), config);
@@ -87,7 +95,6 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
         return getJobs(getPluginConfigs());
     }
 
-
     @Activate
     public void activate(ComponentContext componentContext) {
         registerPlugin();
@@ -98,7 +105,6 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
     public void deactivate() {
         unregisterPlugin();
     }
-
 
     protected MongoCollection getCollection() {
         return mongoDBService.getCollection(getTemplateTableName());
@@ -142,8 +148,7 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
         try {
             testData = getTestData();
 
-            if (Constants.DEBUG
-                    && testData != null && testData.size() > 0) {
+            if (Constants.DEBUG && testData != null && testData.size() > 0) {
                 MongoCollection testCollection = mongoDBService.getCollection(getConfigTableName());
                 testCollection.insert(testData.toArray());
 
@@ -159,36 +164,34 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
         }
         try {
             final String type = configTemplate.getType();
-            Log.info("Try to register plugin [%s]", type);
+            LOGGER.info("Try to register plugin [{}]", type);
 
             final MongoCollection collection = getCollection();
 
             try (MongoCursor previousConfig = collection.find(String.format("{type: '%s'}", type)).as(
                     configTemplate.getClass())) {
                 if (previousConfig.hasNext()) {
-                    Log.info("Plugin [%s] already registered!", type);
+                    LOGGER.info("Plugin [{}] already registered!", type);
                     return;
                 }
             }
 
-            Log.info("Plugin not register yet . Register plugin with [%s] type.", type);
+            LOGGER.info("Plugin not register yet. Register plugin with [{}] type.", type);
             collection.save(configTemplate);
-            Log.info("Plugin [%s] was registered successfully.", type);
+            LOGGER.info("Plugin [{}] was registered successfully.", type);
         } catch (IOException ex) {
-            Log.error("Fail to close cursor " + ex.getMessage());
+            LOGGER.error("Fail to close cursor ", ex);
         }
     }
 
     protected void unregisterPlugin() {
         MongoCollection collection = getCollection();
         final String type = configTemplate.getType();
-        Log.info("Try to unregister plugin [%s]", type);
+        LOGGER.info("Try to unregister plugin [{}]", type);
         collection.remove(String.format("{type: '%s'}", type));
-        Log.info("Plugin [%s] was removed successfully.", type);
+        LOGGER.info("Plugin [{}] was removed successfully.", type);
 
-
-        if (Constants.DEBUG
-                && testData != null && testData.size() > 0) {
+        if (Constants.DEBUG && testData != null && testData.size() > 0) {
             MongoCollection testCollection = mongoDBService.getCollection(getConfigTableName());
             for (T item : testData) {
                 String query = String.format("{id : '%s'}", item.getId());

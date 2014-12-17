@@ -13,6 +13,8 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.epam.cisen.core.api.AbstractMessenger;
 import com.epam.cisen.core.api.Messenger;
@@ -27,6 +29,8 @@ import com.epam.cisen.core.api.util.PropertiesUtil;
         @Property(name = EmailMessenger.SMTP_PASSWORD, label = "Password", passwordValue = ""),
         @Property(name = EmailMessenger.SENDER_EMAIL, label = "Sender FROM address", value = "cisen@fakedomen.info") })
 public class EmailMessenger extends AbstractMessenger<EmailConfigDTO> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailMessenger.class);
 
     static final String SMTP_SERVER = "email.config.smtp.server";
     static final String SMTP_PORT = "email.config.smtp.port";
@@ -72,7 +76,7 @@ public class EmailMessenger extends AbstractMessenger<EmailConfigDTO> {
             email.send();
 
         } catch (EmailException ex) {
-            System.out.println("Fail to send email: " + ex.getMessage());
+            LOGGER.error("Send E-mail exception.", ex);
         }
     }
 }

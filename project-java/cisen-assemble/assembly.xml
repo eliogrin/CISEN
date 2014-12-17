@@ -27,6 +27,7 @@
                 <include>com.epam.build.bot:cisen-status-changed-processor</include>
                 <include>com.epam.build.bot:cisen-watchdog-processor</include>
                 <include>com.epam.build.bot:cisen-daily-report-processor</include>
+                <include>com.epam.build.bot:cisen-log4j-config</include>
                 <include>com.epam.build.bot:commons</include>
             </includes>
             <binaries>
@@ -69,15 +70,15 @@
                 <include>commons-io:commons-io</include>
                 <include>commons-fileupload:commons-fileupload</include>
                 <include>org.mongodb:mongo-java-driver</include>
-                <include>commons-logging:commons-logging</include>
+                <!--<include>commons-logging:commons-logging</include>-->
                 <include>commons-codec:commons-codec</include>
                 <include>commons-lang:commons-lang</include>
                 <include>commons-net:commons-net</include>
                 <include>net.sf.ehcache:ehcache</include>
-                <include>org.slf4j:slf4j-api</include>
-                <include>org.slf4j:slf4j-simple</include>
+                <!--<include>org.slf4j:slf4j-api</include>-->
+                <!--<include>org.slf4j:slf4j-simple</include>-->
                 <include>com.codahale.metrics:metrics-core</include>
-                <include>log4j:log4j</include>
+                <!--<include>log4j:log4j</include>-->
                 <include>org.jongo:jongo</include>
                 <include>com.fasterxml.jackson.core:jackson-core</include>
                 <include>com.fasterxml.jackson.core:jackson-annotations</include>
@@ -89,6 +90,8 @@
                 <include>com.eclipsesource.jaxrs:publisher</include>
                 <include>com.eclipsesource.jaxrs:provider-gson</include>
                 <include>com.google.code.gson:gson</include>
+                <include>org.ops4j.pax.logging:pax-logging-service</include>
+                <include>org.ops4j.pax.logging:pax-logging-api</include>
             </includes>
 
             <outputDirectory>bundle</outputDirectory>
