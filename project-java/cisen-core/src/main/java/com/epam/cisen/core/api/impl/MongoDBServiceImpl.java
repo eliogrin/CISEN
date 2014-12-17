@@ -4,6 +4,7 @@ import com.epam.cisen.core.api.MongoDBService;
 import com.epam.cisen.core.api.dto.Constants;
 import com.epam.cisen.core.api.util.Log;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.apache.felix.scr.annotations.Activate;
@@ -73,6 +74,12 @@ public class MongoDBServiceImpl implements MongoDBService {
             Log.debug("Connection to [%s] was created.", table.getTable());
         }
         return result;
+    }
+
+    @Override
+    public DBCollection getDBCollection(Constants.DB table) {
+        Log.debug("Try to get [%s] db collection", table.getTable());
+        return getCollection(table).getDBCollection();
     }
 
     @Deactivate
