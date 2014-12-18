@@ -1,4 +1,4 @@
-package com.epam.cisen.processor.log4j;
+package com.epam.cisen.core.api.core;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -14,10 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
-@Service(Log4jConfigurationService.class)
-public class Log4jConfigurationService {
+@Service(LogConfigManager.class)
+public class LogConfigManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Log4jConfigurationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogConfigManager.class);
 
     @Reference
     private ConfigurationAdmin configurationAdmin;
@@ -31,7 +31,7 @@ public class Log4jConfigurationService {
             final Hashtable<String, Object> log4jProps = new Hashtable<>();
             log4jProps.put("log4j.rootLogger", "ALL, file");
             log4jProps.put("log4j.appender.file", "org.apache.log4j.RollingFileAppender");
-            log4jProps.put("log4j.appender.file.File", "../../../logs/error.log");
+            log4jProps.put("log4j.appender.file.File", "../../../logs/cisen.log");
             log4jProps.put("log4j.appender.file.MaxFileSize", "1MB");
             log4jProps.put("log4j.appender.file.MaxBackupIndex", "1");
             log4jProps.put("log4j.appender.file.layout", "org.apache.log4j.PatternLayout");

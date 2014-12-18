@@ -366,13 +366,6 @@
 
         <dependency>
             <groupId>com.epam.build.bot</groupId>
-            <artifactId>cisen-log4j-config</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.epam.build.bot</groupId>
             <artifactId>cisen-jenkins</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>

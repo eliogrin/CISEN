@@ -17,6 +17,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
+						<Bundle-Activator>com.epam.cisen.core.Activator</Bundle-Activator>
 						<Export-Package>
 							com.epam.cisen.core.ui;
 							com.epam.cisen.core.api;

@@ -20,6 +20,9 @@ public class BaseConnection {
     }
 
     public BaseConnection(String baseAddress, String login, String pass) {
+        if (baseAddress == null) {
+            throw new IllegalArgumentException("Address cannot be null.");
+        }
         this.baseAddress = baseAddress.endsWith("/") ? baseAddress.substring(0, baseAddress.length() - 1) : baseAddress;
         this.token = toToken(login, pass);
     }

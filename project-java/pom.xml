@@ -74,7 +74,6 @@
         <module>cisen-status-changed-processor</module>
         <module>cisen-watchdog-processor</module>
         <module>cisen-daily-report-processor</module>
-        <module>cisen-log4j-config</module>
     </modules>
 
     <dependencyManagement>
@@ -137,13 +136,6 @@
                 <version>4.1</version>
                 <scope>provided</scope>
             </dependency>
-
-            <!--<dependency>-->
-                <!--<groupId>org.slf4j</groupId>-->
-                <!--<artifactId>slf4j-api</artifactId>-->
-                <!--<version>1.7.7</version>-->
-                <!--<scope>provided</scope>-->
-            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.ops4j.pax.logging</groupId>
@@ -269,7 +261,7 @@
             <!-- end section: compile scope only -->
 
 
-            <!-- start section: provided by cisen:ommons -->
+            <!-- start section: provided by cisen:commons -->
 
             <dependency>
                 <groupId>org.json</groupId>
@@ -312,7 +304,7 @@
                 <version>2.11.4</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- end section: provided by cisen:ommons  -->
+            <!-- end section: provided by cisen:commons  -->
 
         </dependencies>
     </dependencyManagement>
