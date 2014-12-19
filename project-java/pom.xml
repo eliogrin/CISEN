@@ -131,6 +131,13 @@
             </dependency>
 
             <dependency>
+                <groupId>org.ops4j.pax.web-extender</groupId>
+                <artifactId>pax-web-ex-war</artifactId>
+                <version>version=0.6.1-SANAPSHOT</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>com.eclipsesource.jaxrs</groupId>
                 <artifactId>publisher</artifactId>
                 <version>4.1</version>
