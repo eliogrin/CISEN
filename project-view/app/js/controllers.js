@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     var globalUser = {};
-    var globalUserId = "";
+//    var globalUserId = "";
     var login;
     var app = angular.module('cisenControllers', []);
 
@@ -16,12 +16,13 @@
                     $promise.success(function (data) {
                         if (data != null && data.name === user.name) {
                             $rootScope.jobs = data.jobs;
-                            var jobs = data.jobs;
-                            globalUser.jobs = [];
-                            for (var i = 0; i < jobs.length; i++) {
-                                globalUser.jobs[i] = jobs[i];
-                            }
-                            globalUserId = data._id;
+                            globalUser = data;
+//                            var jobs = data.jobs;
+//                            globalUser.jobs = [];
+//                            for (var i = 0; i < jobs.length; i++) {
+//                                globalUser.jobs[i] = jobs[i];
+//                            }
+//                            globalUserId = data._id;
                             $location.path('/home');
                         } else {
                             var newUser = {
@@ -77,7 +78,7 @@
 
                 $scope.getCi = function (job, counter) {
                     var localCounter = counter;
-                    $http.get(SERVER_URL + '/configs_ci/' + job.ci).success(
+                    $http.get(SERVER_URL + '/services/config/ci/' + job.ci).success(
                         function (data, status, headers, config) {
                             $scope.jobs[localCounter].ci = data;
                         });
@@ -85,7 +86,7 @@
 
                 $scope.getMessenger = function (job, counter) {
                     var localCounter = counter;
-                    $http.get(SERVER_URL + '/configs_messenger/' + job.messenger)
+                    $http.get(SERVER_URL + '/services/config/messenger/' + job.messenger)
                         .success(function (data, status, headers, config) {
                             $scope.jobs[localCounter].messenger = data;
                         });
@@ -93,7 +94,7 @@
 
                 $scope.getProcessor = function (job, counter) {
                     var localCounter = counter;
-                    $http.get(SERVER_URL + '/configs_processor/' + job.processor)
+                    $http.get(SERVER_URL + '/services/config/processor/' + job.processor)
                         .success(function (data, status, headers, config) {
                             $scope.jobs[localCounter].processor = data;
                         });
@@ -171,11 +172,20 @@
                         "messenger": "547abc4e1b89357b41d9467c",
                         "processor": "547ac53b686fc984090db7e0"
                     });
-                    $http.put(SERVER_URL + '/users/' + globalUserId, globalUser).success(
-                        function (data, status, headers, config) {
 
-                            login(globalUser);
-                        });
+                    $http({
+                        method: 'PUT',
+                        url: SERVER_URL + '/services/users',
+                        data: JSON.stringify(globalUser)
+                    }).success(function (data, status, headers, config) {
+                        login(globalUser);
+                    });
+
+//                    $http.put(SERVER_URL + '/services/users/' + globalUserId, globalUser).success(
+//                        function (data, status, headers, config) {
+//
+//                            login(globalUser);
+//                        });
                 };
             } ]);
 

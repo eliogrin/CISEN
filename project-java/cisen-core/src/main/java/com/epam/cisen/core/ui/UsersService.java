@@ -8,6 +8,7 @@ import com.mongodb.DBObject;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,5 +58,12 @@ public class UsersService {
     public void create(CiUser body) {
         LOGGER.info("Try to create user [{}]", body.toString());
         mongoDBService.getCollection(Constants.DB.USERS).insert(body);
+    }
+
+    @PUT
+    @Consumes("application/json")
+    public void update(CiUser body) {
+        LOGGER.info("Try to create user [{}]", body.toString());
+        mongoDBService.getCollection(Constants.DB.USERS).update(new ObjectId(body.getId())).with(body);
     }
 }
