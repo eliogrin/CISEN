@@ -41,12 +41,12 @@ public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
         return config.getBaseURL() + "|" + config.getBuildTypeId();
     }
 
-    @Override
-    protected List<TeamCityConfig> getTestData() {
-        List<TeamCityConfig> result = new ArrayList<>();
-        result.add(create("RandomBuild_RandomBuild_Build"));
-        return result;
-    }
+//    @Override
+//    protected List<TeamCityConfig> getTestData() {
+//        List<TeamCityConfig> result = new ArrayList<>();
+//        result.add(create("RandomBuild_RandomBuild_Build"));
+//        return result;
+//    }
 
     @Override
     protected void setupPlugin(ComponentContext componentContext) {
