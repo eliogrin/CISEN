@@ -28,20 +28,6 @@ public class UsersService {
     @Reference
     protected MongoDBService mongoDBService;
 
-//    @GET
-//    @Produces("application/json")
-//    public String get(@QueryParam("name") String name) {
-//        LOGGER.info("Try to find user with name = {}", name);
-//
-//        BasicDBObject query = new BasicDBObject("name", name);
-//        DBObject result = mongoDBService.getDBCollection(Constants.DB.USERS).findOne(query);
-//        if (result != null) {
-//            return result.toString();
-//        }
-//        LOGGER.error("Cannot find user with name = {}", name);
-//        return null;
-//    }
-
     @GET
     @Produces("application/json")
     public CiUser getUser(@QueryParam("name") String name) {
