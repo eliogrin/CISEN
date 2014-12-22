@@ -7,7 +7,7 @@ public class WatchdogProcessorConfigDTO extends ConfigDTO {
     private String minutes;
 
     public WatchdogProcessorConfigDTO() {
-        super("WatchdogProcessor", ConfigDTO.BaseType.PROCESSOR);
+        super("Watchdog Processor", ConfigDTO.BaseType.PROCESSOR);
     }
 
     public String getTimeout() {

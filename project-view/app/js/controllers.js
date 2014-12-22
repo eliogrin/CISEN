@@ -126,17 +126,17 @@
             '$rootScope',
             function (SERVER_URL, $http, $scope, $location, $rootScope) {
                 $scope.fillTemplateConfigs = function () {
-                    $http.get(SERVER_URL + '/plugins_ci/').success(
+                    $http.get(SERVER_URL + '/services/plugins/cis/').success(
                         function (data, status, headers, config) {
                             $scope.ciTemplates = data;
                             $scope.ciSelected = data[0];
                         });
-                    $http.get(SERVER_URL + '/plugins_messengers/').success(
+                    $http.get(SERVER_URL + '/services/plugins/messengers/').success(
                         function (data, status, headers, config) {
                             $scope.messengerTemplates = data;
                             $scope.messengerSelected = data[0];
                         });
-                    $http.get(SERVER_URL + '/plugins_processors/').success(
+                    $http.get(SERVER_URL + '/services/plugins/processors/').success(
                         function (data, status, headers, config) {
                             $scope.processorsTemplates = data;
                             $scope.processorsSelected = data[0];
@@ -144,13 +144,13 @@
                 };
 
                 $scope.saveCiTemplateConfigs = function (data) {
-                    $http.post(SERVER_URL + '/plugins_ci/', data);
+                    $http.post(SERVER_URL + '/services/plugins/cis/', data);
                 };
                 $scope.saveProcessorTemplateConfigs = function (data) {
-                    $http.post(SERVER_URL + '/plugins_processors/', data);
+                    $http.post(SERVER_URL + '/services/plugins/processors/', data);
                 };
                 $scope.saveMessengerTemplateConfigs = function (data) {
-                    $http.post(SERVER_URL + '/plugins_messengers/', data);
+                    $http.post(SERVER_URL + '/services/plugins/messengers/', data);
                 };
 
                 $scope.fillTemplateConfigs();

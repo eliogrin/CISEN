@@ -9,7 +9,7 @@ public class StatusChangedProcessorConfigDTO extends ConfigDTO {
     boolean fromGreenToFail = true;
 
     public StatusChangedProcessorConfigDTO() {
-        this("StatusChangerProcessor", BaseType.PROCESSOR);
+        this("Status Changer", BaseType.PROCESSOR);
     }
 
     public StatusChangedProcessorConfigDTO(String configTableName, BaseType messenger) {

@@ -27,7 +27,6 @@ public class UsersService {
     @Reference
     protected MongoDBService mongoDBService;
 
-
 //    @GET
 //    @Produces("application/json")
 //    public String get(@QueryParam("name") String name) {
