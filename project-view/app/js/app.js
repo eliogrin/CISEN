@@ -7,7 +7,6 @@
         'cisenControllers',
         //'cisenServices'
     ]).constant('SERVER_URL', 'http://localhost:8888');
-//    ]).constant('SERVER_URL', 'http://epuadniw0048.kyiv.epam.com:3000/cisen');
 
     app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/login', {
