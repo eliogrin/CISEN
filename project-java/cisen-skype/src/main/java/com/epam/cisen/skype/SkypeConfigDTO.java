@@ -14,7 +14,7 @@ public class SkypeConfigDTO extends ConfigDTO {
     private boolean updateChatName = false;
 
     public SkypeConfigDTO() {
-        super("SkypeMessenger", ConfigDTO.BaseType.MESSENGER);
+        super("Skype Messenger", ConfigDTO.BaseType.MESSENGER);
     }
 
     public String getRecipient() {
