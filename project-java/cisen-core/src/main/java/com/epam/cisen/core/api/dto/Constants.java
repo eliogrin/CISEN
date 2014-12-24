@@ -1,15 +1,7 @@
 package com.epam.cisen.core.api.dto;
 
-/**
- * Created by Vladislav on 28.11.2014.
- */
 public class Constants {
 
-    //DB credentials
-    public static final String HOST = "localhost";
-    public static final int PORT = 27017;
-    public static final String DB_NAME = "cisen";
-    //
     public static final boolean DEBUG = true;
 
     public static enum DB {

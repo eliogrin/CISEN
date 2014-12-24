@@ -11,6 +11,15 @@ import com.epam.cisen.core.api.dto.ConfigDTO;
 import com.epam.cisen.core.api.dto.Constants;
 import com.epam.cisen.core.api.dto.ToSend;
 
+/**
+ * AbstractMessenger - abstract component class which should be used for creation of new
+ * "messenger" type of plugin. Do not create activation method for service.
+ * All plugins should register yourself in system, so we use activator as registration point.
+ * If you need to add some logic in activator you can use AbstractPlugin.activatePlugin
+ * and AbstractPlugin.deactivatePlugin method which call during activation.
+ *
+ * @param <T>
+ */
 @Component(componentAbstract = true)
 public abstract class AbstractMessenger<T extends ConfigDTO> extends AbstractPlugin<T> implements Messenger {
 

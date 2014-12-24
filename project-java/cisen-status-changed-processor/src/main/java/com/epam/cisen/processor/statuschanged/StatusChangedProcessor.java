@@ -37,7 +37,7 @@ public class StatusChangedProcessor extends AbstractProcessor<StatusChangedProce
     }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
 
     }
 

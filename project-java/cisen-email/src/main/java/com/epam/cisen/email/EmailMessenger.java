@@ -50,7 +50,7 @@ public class EmailMessenger extends AbstractMessenger<EmailConfigDTO> {
     }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
 
         final Dictionary properties = componentContext.getProperties();
         server = PropertiesUtil.toString(properties.get(SMTP_SERVER), StringUtils.EMPTY);

@@ -49,7 +49,7 @@ public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
 //    }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
 
     }
 

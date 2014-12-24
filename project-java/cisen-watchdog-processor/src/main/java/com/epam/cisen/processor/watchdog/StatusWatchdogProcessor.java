@@ -29,7 +29,7 @@ public class StatusWatchdogProcessor extends AbstractProcessor<WatchdogProcessor
     }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
 
     }
 

@@ -18,7 +18,7 @@ public class JenkinsConnector extends AbstractConnector<ConfigDTO> {
     }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
 
     }
 

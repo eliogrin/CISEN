@@ -1,32 +1,36 @@
 package com.epam.cisen.skype;
 
-import com.epam.cisen.core.api.AbstractMessenger;
-import com.epam.cisen.core.api.Messenger;
-import com.epam.cisen.core.api.dto.ConfigDTO;
-import com.epam.cisen.core.api.dto.ToSend;
-import org.apache.commons.lang.StringUtils;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Service;
-import org.osgi.service.component.ComponentContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import static org.apache.commons.io.IOUtils.closeQuietly;
+import org.apache.commons.lang.StringUtils;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.ConfigurationPolicy;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Component
+import com.epam.cisen.core.api.AbstractMessenger;
+import com.epam.cisen.core.api.Messenger;
+import com.epam.cisen.core.api.dto.ToSend;
+import com.epam.cisen.core.api.util.PropertiesUtil;
+
+@Component(label = "Skype messenger plugin", metatype = true, policy = ConfigurationPolicy.REQUIRE)
 @Service(Messenger.class)
+@Properties({ @Property(label = "Skype service host", value = "127.0.0.1", name = SkypeMessenger.SKYPE_HOST),
+        @Property(label = "Skype service port", intValue = 9000, name = SkypeMessenger.SKYPE_PORT) })
 public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SkypeMessenger.class);
 
-    private static final String SKYPE_SERVICE_HOST = "127.0.0.1";
-    private static final int SKYPE_SERVICE_PORT = 9000;
+    static final String SKYPE_HOST = "skype.host";
+    static final String SKYPE_PORT = "skype.port";
 
     private static class SkypeMessage {
 
@@ -62,24 +66,27 @@ public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
     }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
+        LOGGER.info("Skype Messenger activate");
 
-    }
+        String host = PropertiesUtil.toString(componentContext.getProperties().get(SKYPE_HOST), "127.0.0.1");
+        int port = PropertiesUtil.toInteger(componentContext.getProperties().get(SKYPE_PORT), 9000);
 
-    @Activate
-    public void activate() {
-        LOGGER.info("SkypeMessenger activate");
         try {
-            registerPlugin();
-            socket = new Socket(SKYPE_SERVICE_HOST, SKYPE_SERVICE_PORT);
-            out = new DataOutputStream(socket.getOutputStream());
+            socket = new Socket(host, port);
+            if (socket.isConnected()) {
+                out = new DataOutputStream(socket.getOutputStream());
+            } else {
+                LOGGER.warn("Skype service in unavailable now. Unregister plugin. Please, start service.");
+                unregisterPlugin();
+            }
         } catch (IOException ex) {
             LOGGER.error("Create socket: ", ex);
         }
     }
 
-    @Deactivate
-    public void deactivate() {
+    @Override
+    protected void deactivatePlugin() {
         closeQuietly(out);
         closeQuietly(socket);
     }
@@ -89,9 +96,8 @@ public class SkypeMessenger extends AbstractMessenger<SkypeConfigDTO> {
         LOGGER.info("Try to send message via 'Skype' program");
 
         try {
-            SkypeMessage telnetMessage = new SkypeMessage(configDTO.getRecipient(),
-                    message.getBody(), configDTO.isUpdateChatName(),
-                    message.getSubject());
+            SkypeMessage telnetMessage = new SkypeMessage(configDTO.getRecipient(), message.getBody(),
+                    configDTO.isUpdateChatName(), message.getSubject());
 
             out.writeUTF(telnetMessage.toString());
             out.flush();

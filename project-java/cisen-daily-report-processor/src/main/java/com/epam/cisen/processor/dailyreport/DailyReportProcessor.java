@@ -94,7 +94,7 @@ public class DailyReportProcessor extends AbstractProcessor<DailyReportProcessor
     }
 
     @Override
-    protected void setupPlugin(ComponentContext componentContext) {
+    protected void activatePlugin(ComponentContext componentContext) {
 
     }
 

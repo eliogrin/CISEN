@@ -25,9 +25,6 @@ import com.epam.cisen.core.api.dto.Constants;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-/**
- * Created by Vladislav on 28.11.2014.
- */
 @Component(componentAbstract = true)
 public abstract class AbstractPlugin<T extends ConfigDTO> {
 
@@ -46,7 +43,19 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
         return null;
     }
 
-    protected abstract void setupPlugin(ComponentContext componentContext);
+    /**
+     * In case, you need do some action during service activation use this method.
+     *
+     * @param componentContext {@link ComponentContext}
+     */
+    protected abstract void activatePlugin(ComponentContext componentContext);
+
+    /**
+     * In case, you need do some action during service deactivation.
+     */
+    protected void deactivatePlugin() {
+        //nothing to do
+    }
 
     protected abstract Constants.DB getTemplateTableName();
 
@@ -98,7 +107,7 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
     @Activate
     public void activate(ComponentContext componentContext) {
         registerPlugin();
-        setupPlugin(componentContext);
+        activatePlugin(componentContext);
     }
 
     @Deactivate

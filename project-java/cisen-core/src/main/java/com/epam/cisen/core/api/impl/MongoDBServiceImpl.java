@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
@@ -15,31 +17,43 @@ import org.slf4j.LoggerFactory;
 
 import com.epam.cisen.core.api.MongoDBService;
 import com.epam.cisen.core.api.dto.Constants;
+import com.epam.cisen.core.api.util.PropertiesUtil;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
-@Component
+@Component(label = "MongoDB connector", metatype = true)
 @Service
+@Properties({ @Property(label = "Host", value = "127.0.0.1", name = MongoDBServiceImpl.MONGO_HOST),
+        @Property(label = "Port", intValue = 27017, name = MongoDBServiceImpl.MONGO_PORT),
+        @Property(label = "DB name", value = "cisen", name = MongoDBServiceImpl.MONGO_DB_NAME) })
 public class MongoDBServiceImpl implements MongoDBService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MongoDBServiceImpl.class);
 
+    static final String MONGO_HOST = "mongo.host";
+    static final String MONGO_PORT = "mongo.port";
+    static final String MONGO_DB_NAME = "mongo.db.name";
+
     private Mongo m_mongo;
-    private DB m_db;
     private Jongo jongo;
     private Map<String, MongoCollection> collections = new HashMap<>();
 
     @Activate
-    public void start() {
+    public void start(Map<String, Object> properties) {
         LOGGER.info("Starting MongoDb service...");
         MongoClient mongoClient;
         try {
-            mongoClient = new MongoClient(Constants.HOST, Constants.PORT);
-            this.m_db = mongoClient.getDB(Constants.DB_NAME);
-            this.m_mongo = m_db.getMongo();
-            this.jongo = new Jongo(m_db);
+            String host = PropertiesUtil.toString(properties.get(MONGO_HOST), "127.0.0.1");
+            int port = PropertiesUtil.toInteger(properties.get(MONGO_PORT), 27017);
+            String dbName = PropertiesUtil.toString(properties.get(MONGO_DB_NAME), "cisen");
+
+            mongoClient = new MongoClient(host, port);
+            DB mDb = mongoClient.getDB(dbName);
+
+            this.m_mongo = mDb.getMongo();
+            this.jongo = new Jongo(mDb);
             setUpDB();
             LOGGER.info("MongoDb service was started successfully.");
         } catch (UnknownHostException e) {
