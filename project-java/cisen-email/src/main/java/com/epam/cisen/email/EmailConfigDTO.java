@@ -7,7 +7,7 @@ public class EmailConfigDTO extends ConfigDTO {
     private String recipient = "Input your e-mail.";
 
     public EmailConfigDTO() {
-        super("EmailMessenger", BaseType.MESSENGER);
+        super("Email Messenger", BaseType.MESSENGER);
     }
 
     public String getRecipient() {

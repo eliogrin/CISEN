@@ -8,6 +8,8 @@ public class StatusChangedProcessorConfigDTO extends ConfigDTO {
     boolean fromFailToFail = true;
     boolean fromGreenToFail = true;
 
+    private String description;
+
     public StatusChangedProcessorConfigDTO() {
         this("Status Changer", BaseType.PROCESSOR);
     }
@@ -40,4 +42,11 @@ public class StatusChangedProcessorConfigDTO extends ConfigDTO {
         this.fromGreenToFail = fromGreenToFail;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

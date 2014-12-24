@@ -48,7 +48,9 @@ public abstract class AbstractPlugin<T extends ConfigDTO> {
      *
      * @param componentContext {@link ComponentContext}
      */
-    protected abstract void activatePlugin(ComponentContext componentContext);
+    protected void activatePlugin(ComponentContext componentContext) {
+        //nothing to do
+    }
 
     /**
      * In case, you need do some action during service deactivation.

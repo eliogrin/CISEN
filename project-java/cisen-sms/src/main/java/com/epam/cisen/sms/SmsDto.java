@@ -7,7 +7,7 @@ public class SmsDto extends ConfigDTO {
     private String recipient = null;
 
     public SmsDto() {
-        super("sms", BaseType.MESSENGER);
+        super("Sms messenger", BaseType.MESSENGER);
     }
 
     public void setRecipient(final String recipient) {

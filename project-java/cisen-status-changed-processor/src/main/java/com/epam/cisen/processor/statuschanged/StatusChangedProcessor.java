@@ -1,23 +1,21 @@
 package com.epam.cisen.processor.statuschanged;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Service;
+import org.jongo.MongoCollection;
+import org.jongo.MongoCursor;
+
 import com.epam.cisen.core.api.AbstractProcessor;
 import com.epam.cisen.core.api.Processor;
 import com.epam.cisen.core.api.dto.CIInitializer;
 import com.epam.cisen.core.api.dto.CiReport;
 import com.epam.cisen.core.api.dto.Constants;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Service;
-import org.jongo.Jongo;
-import org.jongo.MongoCollection;
-import org.jongo.MongoCursor;
-import org.osgi.service.component.ComponentContext;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @Component
 @Service(Processor.class)
@@ -29,16 +27,12 @@ public class StatusChangedProcessor extends AbstractProcessor<StatusChangedProce
         CONFIG.setFromFailToFail(true);
         CONFIG.setFromFailToGreen(true);
         CONFIG.setFromGreenToFail(true);
+        CONFIG.setDescription("This reporter send message every time when CI status changed.");
     }
 
     @Override
     protected StatusChangedProcessorConfigDTO getPluginTemplateConfig() {
         return CONFIG;
-    }
-
-    @Override
-    protected void activatePlugin(ComponentContext componentContext) {
-
     }
 
     @Override
@@ -74,7 +68,8 @@ public class StatusChangedProcessor extends AbstractProcessor<StatusChangedProce
         }
     }
 
-    private void generateMessage(String jobId, StatusChangedProcessorConfigDTO config, CiReport.Status firstStatus, CiReport lastReport) {
+    private void generateMessage(String jobId, StatusChangedProcessorConfigDTO config, CiReport.Status firstStatus,
+            CiReport lastReport) {
         CiReport.Status lastStatus = lastReport.getStatus();
         if (lastStatus.inProgress()) {
             return;
@@ -87,17 +82,20 @@ public class StatusChangedProcessor extends AbstractProcessor<StatusChangedProce
 
         if (config.fromGreenToFail && firstStatus.isSuccess()) {
 
-            String message = String.format("(rain) - build #%s was FAILURE after push of %s", lastReport.getBuildNumber(), users);
+            String message = String.format("(rain) - build #%s was FAILURE after push of %s",
+                    lastReport.getBuildNumber(), users);
 
             putMessage(jobId, "Build failed", message);
         } else if (config.fromFailToGreen && lastStatus.isSuccess()) {
 
-            String message = String.format("(sun)- build #%s was SUCCESS special thanks to %s", lastReport.getBuildNumber(), users);
+            String message = String.format("(sun)- build #%s was SUCCESS special thanks to %s",
+                    lastReport.getBuildNumber(), users);
 
             putMessage(jobId, "Build green", message);
         } else if (config.fromFailToFail && !firstStatus.isSuccess() && !lastStatus.isSuccess()) {
 
-            String message = String.format("(tumbleweed) - sorry, but build #%s still FAILURE after push of %s", lastReport.getBuildNumber(), users);
+            String message = String.format("(tumbleweed) - sorry, but build #%s still FAILURE after push of %s",
+                    lastReport.getBuildNumber(), users);
 
             putMessage(jobId, "Build still failed", message);
         }

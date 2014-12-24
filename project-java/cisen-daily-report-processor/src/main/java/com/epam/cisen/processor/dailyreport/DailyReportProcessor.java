@@ -10,7 +10,6 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
-import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +28,15 @@ public class DailyReportProcessor extends AbstractProcessor<DailyReportProcessor
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DailyReportProcessor.class);
 
+    private static final DailyReportProcessorConfigDTO CONFIG = new DailyReportProcessorConfigDTO();
+
+    static {
+        CONFIG.setDescription("This report run once a day and collect information about last twenty-four hours activity on CI.");
+    }
+
     @Override
     protected DailyReportProcessorConfigDTO getPluginTemplateConfig() {
-        return new DailyReportProcessorConfigDTO();
+        return CONFIG;
     }
 
     // private volatile LocalDate lastRun;
@@ -91,11 +96,6 @@ public class DailyReportProcessor extends AbstractProcessor<DailyReportProcessor
         DailyReportProcessorConfigDTO dto = new DailyReportProcessorConfigDTO();
         result.add(dto);
         return result;
-    }
-
-    @Override
-    protected void activatePlugin(ComponentContext componentContext) {
-
     }
 
 }

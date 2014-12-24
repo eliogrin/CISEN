@@ -1,18 +1,17 @@
 package com.epam.cisen.processor.watchdog;
 
-import com.epam.cisen.core.api.AbstractProcessor;
-import com.epam.cisen.core.api.Processor;
-import com.epam.cisen.core.api.dto.CiReport;
-import com.epam.cisen.core.api.dto.ConfigDTO;
-import com.epam.cisen.core.api.dto.Constants;
+import java.io.IOException;
+import java.util.Map;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
-import org.osgi.service.component.ComponentContext;
 
-import java.io.IOException;
-import java.util.Map;
+import com.epam.cisen.core.api.AbstractProcessor;
+import com.epam.cisen.core.api.Processor;
+import com.epam.cisen.core.api.dto.CiReport;
+import com.epam.cisen.core.api.dto.Constants;
 
 @Component
 @Service(Processor.class)
@@ -21,16 +20,16 @@ public class StatusWatchdogProcessor extends AbstractProcessor<WatchdogProcessor
     private final static String SUBJECT = "Frozen build detected";
     private final static String BODY = "It looks like current build is in progress from an ancient times.";
 
-    @Override
-    protected WatchdogProcessorConfigDTO getPluginTemplateConfig() {
-        WatchdogProcessorConfigDTO templateConfig = new WatchdogProcessorConfigDTO();
-        templateConfig.setTimeout("Set watchdog interval in minutes");
-        return templateConfig;
+    private static final WatchdogProcessorConfigDTO CONFIG = new WatchdogProcessorConfigDTO();
+
+    static {
+        CONFIG.setTimeout("Set watchdog interval in minutes");
+        CONFIG.setDescription("This processor run periodically and check CI on hang up builds.");
     }
 
     @Override
-    protected void activatePlugin(ComponentContext componentContext) {
-
+    protected WatchdogProcessorConfigDTO getPluginTemplateConfig() {
+        return CONFIG;
     }
 
     @Override
@@ -38,7 +37,8 @@ public class StatusWatchdogProcessor extends AbstractProcessor<WatchdogProcessor
         MongoCollection builds = mongoDBService.getCollection(Constants.DB.BUILDS);
         for (Map.Entry<String, WatchdogProcessorConfigDTO> entry : getJobs().entrySet()) {
             long boundTime = System.currentTimeMillis() - Integer.parseInt(entry.getValue().getTimeout()) * 60000;
-            String queryToSend = String.format("{jobId:'%s', processed:'false', startTime:{$lt: '%s'}, status: '%s'}", entry.getKey(), boundTime, CiReport.Status.IN_PROGRESS);
+            String queryToSend = String.format("{jobId:'%s', processed:'false', startTime:{$lt: '%s'}, status: '%s'}",
+                    entry.getKey(), boundTime, CiReport.Status.IN_PROGRESS);
             try {
                 MongoCursor<CiReport> ciReports = builds.find(queryToSend).as(CiReport.class);
                 if (ciReports.count() > 0) {

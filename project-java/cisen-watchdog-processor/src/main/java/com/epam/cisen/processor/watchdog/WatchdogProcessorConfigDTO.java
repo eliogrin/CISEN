@@ -6,6 +6,8 @@ public class WatchdogProcessorConfigDTO extends ConfigDTO {
 
     private String minutes;
 
+    private String description;
+
     public WatchdogProcessorConfigDTO() {
         super("Watchdog Processor", ConfigDTO.BaseType.PROCESSOR);
     }
@@ -16,5 +18,13 @@ public class WatchdogProcessorConfigDTO extends ConfigDTO {
 
     public void setTimeout(String minutes) {
         this.minutes = minutes;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

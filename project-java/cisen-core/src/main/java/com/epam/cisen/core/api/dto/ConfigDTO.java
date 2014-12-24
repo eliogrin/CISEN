@@ -1,10 +1,8 @@
 package com.epam.cisen.core.api.dto;
 
-import org.apache.felix.scr.annotations.Component;
 import org.jongo.marshall.jackson.oid.Id;
 import org.jongo.marshall.jackson.oid.ObjectId;
 
-@Component(inherit = true)
 public class ConfigDTO {
 
     @Id
@@ -53,7 +51,7 @@ public class ConfigDTO {
 
         String dbName;
 
-        BaseType(String dbName){
+        BaseType(String dbName) {
             this.dbName = dbName;
         }
 

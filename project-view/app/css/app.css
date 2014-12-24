@@ -29,3 +29,7 @@ body {
 .job-name {
     margin: 10px 0;
 }
+
+.text-container-center {
+    text-align: center;
+}
