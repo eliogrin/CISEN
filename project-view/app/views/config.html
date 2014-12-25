@@ -30,38 +30,55 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">CI List</label>
                     <div class="col-sm-9">
-                        <select ng-model="ciSelected" class="form-control" ng-options="template.type for template in ciTemplates">
+                        <select ng-model="ciSelected" ng-change="ciChanged(ciSelected)" class="form-control" ng-options="template.type for template in ciTemplates">
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="login" class="col-sm-2 control-label">Login</label>
+                    <label class="col-sm-2 control-label">&nbsp;</label>
                     <div class="col-sm-9">
-                        <input type="text" name="login" class="form-control" id="login" placeholder="Enter login here" ng-model="login" required>
+                        <h3><label class="label label-info">{{ciSelected.description}}</label></h3>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="pass" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-9">
-                        <input type="hidden" name="pass" class="form-control" id="pass" placeholder="Enter password here" ng-model="pass" required>
+                <div ng-repeat="column in ciSelectedKeys">
+
+                    <div class="form-group">
+                        <label for="l_{{$index}}" class="col-sm-2 control-label">{{column}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="l_{{$index}}" class="form-control" placeholder="{{ciSelected[column]}}" ng-model="job_ci[column]" required>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="url" class="col-sm-2 control-label">Server URL</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="buildTypeId" class="form-control" id="url" placeholder="Enter full URL here" ng-model="url" required>
-                    </div>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="login" class="col-sm-2 control-label">Login</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<input type="text" name="login" class="form-control" id="login" placeholder="Enter login here" ng-model="login" required>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="form-group">
-                    <label for="buildTypeId" class="col-sm-2 control-label">Build ID</label>
-                    <div class="col-sm-9">
-                        <input type="text" name="buildTypeId" class="form-control" id="buildTypeId" placeholder="Enter build type here" ng-model="buildTypeId" required>
-                    </div>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="pass" class="col-sm-2 control-label">Password</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<input type="hidden" name="pass" class="form-control" id="pass" placeholder="Enter password here" ng-model="pass" required>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="form-group">-->
+                    <!--<label for="url" class="col-sm-2 control-label">Server URL</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<input type="text" name="buildTypeId" class="form-control" id="url" placeholder="Enter full URL here" ng-model="url" required>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="form-group">-->
+                    <!--<label for="buildTypeId" class="col-sm-2 control-label">Build ID</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<input type="text" name="buildTypeId" class="form-control" id="buildTypeId" placeholder="Enter build type here" ng-model="buildTypeId" required>-->
+                    <!--</div>-->
+                <!--</div>-->
             </form>
 
             <button type="button" class="btn btn-primary save-config" ng-click="setTab(2)">Next</button>
@@ -74,20 +91,40 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Messenger List</label>
                     <div class="col-sm-9">
-                        <select class="form-control" ng-model="messengerSelected" ng-options="template.type for template in messengerTemplates">
+                        <select class="form-control" ng-model="messengerSelected" ng-change="messengerChanged(messengerSelected)"  ng-options="template.type for template in messengerTemplates">
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <input type="hidden" name="baseType" class="form-control" id="base-type-messenger" placeholder="Enter user name here" ng-model="baseType" required>
-                    <input type="hidden" name="type" class="form-control" id="type-messenger" placeholder="Enter user name here" ng-model="type" required>
 
-                    <label for="recipient" class="col-sm-2 control-label">Recipient</label>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">&nbsp;</label>
                     <div class="col-sm-9">
-                        <input type="text" name="recipient" class="form-control" id="recipient" placeholder="Enter login here" ng-model="recipient" required>
+                        <h3><label class="label label-info">{{messengerSelected.description}}</label></h3>
                     </div>
                 </div>
+
+                <!--<div ng-repeat="column in messengerSelectedKeys">-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label for="l_{{$index}}" class="col-sm-2 control-label">{{column}}</label>-->
+                        <!--<div class="col-sm-9">-->
+                            <!--<input type="text" name="l_{{$index}}" class="form-control" placeholder="{{messengerSelected[column]}}" ng-model="job_messenger[column]" required>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+
+                <!--<div class="form-group">-->
+                    <!--<input type="hidden" name="baseType" class="form-control" id="base-type-messenger" placeholder="Enter user name here" ng-model="baseType" required>-->
+                    <!--<input type="hidden" name="type" class="form-control" id="type-messenger" placeholder="Enter user name here" ng-model="type" required>-->
+
+                    <!--<label for="recipient" class="col-sm-2 control-label">Recipient</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<input type="text" name="recipient" class="form-control" id="recipient" placeholder="Enter login here" ng-model="recipient" required>-->
+                    <!--</div>-->
+                <!--</div>-->
             </form>
 
             <button type="button" class="btn btn-primary save-config" ng-click="setTab(3)">Next</button>
@@ -100,15 +137,12 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Processors List</label>
                     <div class="col-sm-9">
-                        <select class="form-control" ng-model="processorsSelected" ng-options="template.type for template in processorsTemplates">
+                        <select class="form-control" ng-model="processorsSelected" ng-change="processorChanged(processorsSelected)" ng-options="template.type for template in processorsTemplates">
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <input type="hidden" name="baseType" class="form-control" id="base-type-processor" placeholder="Enter user name here" ng-model="baseType" required>
-                    <input type="hidden" name="type" class="form-control" id="type-processor" placeholder="Enter user name here" ng-model="type" required>
-                </div>
+
 
                 <div class="form-group">
                     <label class="col-sm-2 control-label">&nbsp;</label>
@@ -116,6 +150,29 @@
                         <h3><label class="label label-info">{{processorsSelected.description}}</label></h3>
                     </div>
                 </div>
+
+                <div ng-repeat="column in processorSelectedKeys">
+
+                    <div class="form-group">
+                        <label for="l_{{$index}}" class="col-sm-2 control-label">{{column}}</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="l_{{$index}}" class="form-control" placeholder="{{processorsSelected[column]}}" ng-model="job_processor[column]" required>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="form-group">-->
+                    <!--<input type="hidden" name="baseType" class="form-control" id="base-type-processor" placeholder="Enter user name here" ng-model="baseType" required>-->
+                    <!--<input type="hidden" name="type" class="form-control" id="type-processor" placeholder="Enter user name here" ng-model="type" required>-->
+                <!--</div>-->
+
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">&nbsp;</label>-->
+                    <!--<div class="col-sm-9">-->
+                        <!--<h3><label class="label label-info">{{processorsSelected.description}}</label></h3>-->
+                    <!--</div>-->
+                <!--</div>-->
             </form>
 
             <button type="button" class="btn btn-primary save-config" ng-click="saveConfig()">Save</button>

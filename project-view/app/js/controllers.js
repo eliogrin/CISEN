@@ -126,21 +126,74 @@
             '$location',
             '$rootScope',
             function (SERVER_URL, $http, $scope, $location, $rootScope) {
+//                $scope.job_ci = {};
+//                $scope.ciSelectedKeys = {};
+//                $scope.job_processor = {};
+//                $scope.processorSelectedKeys = {};
+//                $scope.job_messenger = {};
+//                $scope.messengerSelectedKeys = {};
+
+
+                $scope.ciChanged = function (selectedCI) {
+                    var changed = $scope.getChanged(selectedCI);
+                    $scope.ciSelectedKeys = changed[0];
+                    $scope.job_ci = changed[1];
+                };
+
+                $scope.processorChanged = function (selectedProcessor) {
+                    var changed = $scope.getChanged(selectedProcessor);
+                    $scope.processorSelectedKeys = changed[0];
+                    $scope.job_processor = changed[1];
+                };
+
+                $scope.messengerChanged = function (selectedMessenger) {
+                    var changed = $scope.getChanged(selectedMessenger);
+                    $scope.messengerSelectedKeys = changed[0];
+                    $scope.job_messenger = changed[1];
+                };
+
+                $scope.getChanged = function (selected) {
+                    if(selected === []){
+                        selected = {};
+                    }
+                    var selectedKeys = Object.keys(selected);
+
+                    selectedKeys.splice(selectedKeys.indexOf('_id'), 1);
+                    selectedKeys.splice(selectedKeys.indexOf('type'), 1);
+                    selectedKeys.splice(selectedKeys.indexOf('description'), 1);
+                    selectedKeys.splice(selectedKeys.indexOf('baseType'), 1);
+
+                    var obj = angular.copy(selected);
+                    for (var ci in obj) {
+                        obj[ci] = "";
+                    }
+                    return [selectedKeys, obj];
+                };
+
                 $scope.fillTemplateConfigs = function () {
                     $http.get(SERVER_URL + '/services/plugins/cis/').success(
                         function (data, status, headers, config) {
                             $scope.ciTemplates = data;
-                            $scope.ciSelected = data[0];
+                            if(data.length > 0) {
+                                $scope.ciSelected = data[0];
+                                $scope.ciChanged($scope.ciSelected);
+                            }
                         });
                     $http.get(SERVER_URL + '/services/plugins/messengers/').success(
                         function (data, status, headers, config) {
                             $scope.messengerTemplates = data;
-                            $scope.messengerSelected = data[0];
+                            if(data.length > 0) {
+                                $scope.messengerSelected = data[0];
+                                $scope.messengerChanged($scope.messengerSelected);
+                            }
                         });
                     $http.get(SERVER_URL + '/services/plugins/processors/').success(
                         function (data, status, headers, config) {
                             $scope.processorsTemplates = data;
-                            $scope.processorsSelected = data[0];
+                            if(data.length > 0) {
+                                $scope.processorsSelected = data[0];
+                                $scope.processorChanged($scope.processorsSelected);
+                            }
                         });
                 };
 
