@@ -42,14 +42,17 @@ public class UsersService {
     @POST
     @Consumes("application/json")
     public void create(CiUser body) {
-        LOGGER.info("Try to create user [{}]", body.toString());
+        LOGGER.info("Try to create user [{}]", body.getName());
         mongoDBService.getCollection(Constants.DB.USERS).insert(body);
+
     }
 
     @PUT
     @Consumes("application/json")
     public void update(CiUser body) {
-        LOGGER.info("Try to create user [{}]", body.toString());
+        LOGGER.info("Try to create user [{}]", body.getName());
         mongoDBService.getCollection(Constants.DB.USERS).update(new ObjectId(body.getId())).with(body);
     }
+
+
 }

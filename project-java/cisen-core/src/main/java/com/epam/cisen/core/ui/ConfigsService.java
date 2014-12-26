@@ -2,6 +2,7 @@ package com.epam.cisen.core.ui;
 
 import com.epam.cisen.core.api.MongoDBService;
 import com.epam.cisen.core.api.dto.Constants;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
@@ -12,10 +13,8 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import java.util.UUID;
 
 /**
  * Created by Vladislav on 22.12.2014.
@@ -53,8 +52,30 @@ public class ConfigsService {
         return get(Constants.DB.MESSENGER_CONFIGS, id);
     }
 
+    @POST
+    @Produces("application/json")
+    @Consumes("application/json")
+    public String save(String ciStr) {
+        BasicDBList jobConfigs = (BasicDBList) JSON.parse(ciStr);
+        StringBuilder result = new StringBuilder().append("[");
+        result.append(save((BasicDBObject) jobConfigs.get(0), Constants.DB.CI_CONFIGS)).append(",");
+        result.append(save((BasicDBObject) jobConfigs.get(1), Constants.DB.MESSENGER_CONFIGS)).append(",");
+        result.append(save((BasicDBObject) jobConfigs.get(2), Constants.DB.PROCESSOR_CONFIGS)).append("]");
+
+        return result.toString();
+    }
+
+    private String save(BasicDBObject object, Constants.DB table) {
+        if (object == null) {
+            return "{}";
+        }
+        object.append("_id", UUID.randomUUID().toString().replaceAll("-", ""));
+        mongoDBService.getDBCollection(table).insert(object);
+        return object.toString();
+    }
+
     private String get(Constants.DB table, String id) {
-        DBObject query = new BasicDBObject("_id", new ObjectId(id));
+        DBObject query = new BasicDBObject("_id", id);
         DBObject result = mongoDBService.getDBCollection(table).findOne(query);
         return JSON.serialize(result);
     }

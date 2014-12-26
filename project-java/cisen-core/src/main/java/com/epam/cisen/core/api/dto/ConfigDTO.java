@@ -18,7 +18,7 @@ public class ConfigDTO {
     }
 
     public ConfigDTO(String type, BaseType baseType) {
-        this(type, baseType, "");
+        this(type, baseType, null);
     }
 
     public ConfigDTO(String type, BaseType baseType, String description) {
