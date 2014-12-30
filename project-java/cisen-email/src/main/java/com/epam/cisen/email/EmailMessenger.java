@@ -46,7 +46,9 @@ public class EmailMessenger extends AbstractMessenger<EmailConfigDTO> {
 
     @Override
     protected EmailConfigDTO getPluginTemplateConfig() {
-        return new EmailConfigDTO();
+        EmailConfigDTO res = new EmailConfigDTO();
+        res.setRecipient("Your email.");
+        return res;
     }
 
     @Override
