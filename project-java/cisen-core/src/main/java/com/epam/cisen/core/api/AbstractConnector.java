@@ -1,5 +1,6 @@
 package com.epam.cisen.core.api;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.felix.scr.annotations.Component;
@@ -32,7 +33,10 @@ public abstract class AbstractConnector<T extends ConfigDTO> extends AbstractPlu
      * Get build unique key.
      *
      * @param config
+     *        plugin configuration.
+     *
      * @return
+     *  unique build key which help to find record in DB.
      */
     protected abstract String getBuildKey(T config);
 
@@ -68,17 +72,16 @@ public abstract class AbstractConnector<T extends ConfigDTO> extends AbstractPlu
     }
 
     private boolean buildInDB(MongoCollection collection, String jobId, String buildId) {
-        try {
-            MongoCursor cursor = collection.find("{ $and [ {jobId:#}, {buildId:#} ] }", jobId, buildId).as(
-                    CiReport.class);
-            try {
-                return !cursor.hasNext();
-            } finally {
-                cursor.close();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+        try (MongoCursor cursor = collection.find("{ $and [ {jobId:#}, {buildId:#} ] }", jobId, buildId).as(
+                CiReport.class)) {
+            return !cursor.hasNext();
+
+        } catch (IOException e) {
+
+            LOGGER.error("Fail to check Build Id", e);
         }
+
         return false;
     }
 

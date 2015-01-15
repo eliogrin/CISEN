@@ -1,8 +1,5 @@
 package com.epam.cisen.teamcity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.osgi.service.component.ComponentContext;
@@ -18,10 +15,10 @@ public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
     private static final TeamCityConfig CONFIG = new TeamCityConfig();
 
     static {
-        CONFIG.setBaseURL("Base TeamCity url");
-        CONFIG.setBuildTypeId("Build id in TC");
-        CONFIG.setLogin("TC user's login");
-        CONFIG.setPass("TC user's pass");
+        CONFIG.setBaseURL("URL");
+        CONFIG.setBuildTypeId("Build ID");
+        CONFIG.setLogin("Login");
+        CONFIG.setPass("Password");
     }
 
     private final TeamCityWorker worker = new TeamCityWorker();
@@ -41,14 +38,6 @@ public class TeamCityConnector extends AbstractConnector<TeamCityConfig> {
         return config.getBaseURL() + "|" + config.getBuildTypeId();
     }
 
-//    @Override
-//    protected List<TeamCityConfig> getTestData() {
-//        List<TeamCityConfig> result = new ArrayList<>();
-//        result.add(create("RandomBuild_RandomBuild_Build"));
-//        return result;
-//    }
-
-    @Override
     protected void activatePlugin(ComponentContext componentContext) {
 
     }

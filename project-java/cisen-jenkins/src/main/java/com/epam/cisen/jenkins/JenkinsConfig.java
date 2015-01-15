@@ -1,24 +1,24 @@
-package com.epam.cisen.teamcity;
+package com.epam.cisen.jenkins;
 
 import com.epam.cisen.core.api.dto.ConfigDTO;
 
-public class TeamCityConfig extends ConfigDTO {
+public class JenkinsConfig extends ConfigDTO {
 
     private String baseURL;
     private String login;
     private String pass;
-    private String buildTypeId;
+    private String jobName;
 
-    public TeamCityConfig() {
-        super("TeamCity", BaseType.CI);
+    public JenkinsConfig() {
+        super("Jenkins", BaseType.CI);
     }
 
-    public TeamCityConfig(String baseURL, String login, String pass, String buildTypeId) {
+    public JenkinsConfig(String baseURL, String login, String pass, String jobName) {
         this();
         this.baseURL = baseURL;
         this.login = login;
         this.pass = pass;
-        this.buildTypeId = buildTypeId;
+        this.jobName = jobName;
     }
 
     public String getBaseURL() {
@@ -45,11 +45,11 @@ public class TeamCityConfig extends ConfigDTO {
         this.pass = pass;
     }
 
-    public String getBuildTypeId() {
-        return buildTypeId;
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setBuildTypeId(String buildTypeId) {
-        this.buildTypeId = buildTypeId;
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 }
