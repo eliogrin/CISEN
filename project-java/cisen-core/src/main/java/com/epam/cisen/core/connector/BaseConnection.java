@@ -1,6 +1,4 @@
-package com.epam.cisen.teamcity.connectors;
-
-import org.apache.commons.codec.binary.Base64;
+package com.epam.cisen.core.connector;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,10 +6,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
-/**
- * Created by Vladislav on 19.11.2014.
- */
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
+
 public class BaseConnection {
+
     private String baseAddress;
     private String token;
 
@@ -28,8 +27,7 @@ public class BaseConnection {
     }
 
     private String toToken(String login, String pass) {
-        if (login == null || login.trim().isEmpty()
-                || pass == null || pass.trim().isEmpty()) {
+        if (StringUtils.isBlank(login) || StringUtils.isBlank(pass)) {
             return null;
         }
         String authStr = login + ":" + pass;
@@ -47,16 +45,13 @@ public class BaseConnection {
         return read(connection.getInputStream());
     }
 
-
     private String read(InputStream is) throws IOException {
-        Scanner scanner = new Scanner(is);
         StringBuilder result = new StringBuilder();
-        try {
+
+        try (Scanner scanner = new Scanner(is)) {
             while (scanner.hasNextLine()) {
                 result.append(scanner.nextLine());
             }
-        } finally {
-            scanner.close();
         }
         return result.toString();
     }

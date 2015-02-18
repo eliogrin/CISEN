@@ -3,9 +3,6 @@ package com.epam.cisen.core.api.dto;
 import org.jongo.marshall.jackson.oid.Id;
 import org.jongo.marshall.jackson.oid.ObjectId;
 
-/**
- * Created by Vladislav on 19.11.2014.
- */
 public class CIInitializer {
 
     @Id
@@ -16,11 +13,6 @@ public class CIInitializer {
 
     public CIInitializer() {
 
-    }
-
-    public CIInitializer(String userId, Action action) {
-        this.userId = userId;
-        this.action = action;
     }
 
     public String getId() {

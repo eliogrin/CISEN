@@ -1,65 +1,19 @@
 package com.epam.cisen.teamcity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import com.epam.cisen.core.api.dto.CIInitializer;
 import com.epam.cisen.core.api.dto.CiReport;
 import com.epam.cisen.teamcity.connectors.TeamCityConnection;
-import com.epam.cisen.teamcity.parsers.BaseXMLParser;
+import com.epam.cisen.core.connector.BaseXMLParser;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-/**
- * Created by Vladislav on 19.11.2014.
- */
 public class TeamCityWorker {
 
     private static final String LAST_BUILD_XPATH = "/builds/build[1]";
-//    public static final String CI_CONFIGS = "ci_configs";
 
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-//    private final MongoCollection collection;
-
-//    public TeamCityWorker(Jongo jongo) {
-//        this.collection = jongo.getCollection(CI_CONFIGS);
-//    }
-
-//    public List<CiReport> parsCI() throws Exception {
-//        //Read all TeamCity configs
-//        List<TeamCityConfig> configurations = readJobConfigs();
-//        //Create map to ignore duplicate configurations
-//        Map<String, CiReport> resultMap = new HashMap<>();
-//        List<CiReport> result = new ArrayList<>(configurations.size());
-//        for (TeamCityConfig config : configurations) {
-//            //Key for result map
-//            String configKey = config.getBaseURL() + "|" + config.getBuildTypeId();
-//            //If config already processed
-//            CiReport report = resultMap.get(configKey);
-//            if (report != null) {
-//                result.add(report);
-//                continue;
-//            }
-//            //If new configuration
-//            //Read data from TC
-//            report = checkStatus(config);
-//            //Add to result collections
-//            resultMap.put(configKey, report);
-//            result.add(report);
-//        }
-//        return result;
-//    }
-//
-//    private List<TeamCityConfig> readJobConfigs() throws IOException {
-//        MongoCursor<TeamCityConfig> cursor = collection.find().as(TeamCityConfig.class);
-//        List<TeamCityConfig> result = new ArrayList<>(cursor.count());
-//        try {
-//            while (cursor.hasNext()) {
-//                result.add(cursor.next());
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-//        return result;
-//    }
 
     public CiReport checkStatus(TeamCityConfig config) throws Exception {
         TeamCityConnection connection = new TeamCityConnection(config);

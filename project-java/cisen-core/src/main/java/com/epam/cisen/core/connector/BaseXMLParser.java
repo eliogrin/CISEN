@@ -1,8 +1,9 @@
-package com.epam.cisen.teamcity.parsers;
+package com.epam.cisen.core.connector;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,14 +11,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathException;
 import javax.xml.xpath.XPathFactory;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by Vladislav on 19.11.2014.
- */
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 public class BaseXMLParser {
 
     private final Document document;
@@ -28,7 +26,7 @@ public class BaseXMLParser {
         xPath = XPathFactory.newInstance().newXPath();
     }
 
-    private final Document toDocument(String xmlString) throws Exception {
+    private Document toDocument(String xmlString) throws Exception {
         if (xmlString == null || xmlString.isEmpty()) {
             throw new IllegalArgumentException("xml cannot be empty.");
         }
